@@ -23,6 +23,18 @@ struct SlidingButton: View {
             Rectangle()
                 .fill(dragDistance > -50 ? Color.red : Color.black)
                 .frame(width: 250, height: 50)
+                .overlay(
+                    ZStack {
+                        Text("I never seen this")
+                            .foregroundColor(.white)
+                            .opacity(max(0, min(1, -dragDistance / 100)))
+                            .padding(.leading, 10)
+
+                        Text("I think I've seen it")
+                            .foregroundColor(.white)
+                            .opacity(max(0, min(1, 1 - (-dragDistance / 100))))
+                    }
+                )
                 .gesture(
                     DragGesture()
                         .onChanged { value in
