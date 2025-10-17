@@ -14,21 +14,25 @@ public struct ReviewingView: View {
     public var body: some View {
         ZStack {
             VStack {
-                ScrollView { //main body
+                ScrollView { // main body
                     VStack(spacing: 0) {
                         // Answer Box - Vocabulary Card
                         VStack(spacing: 16) {
                             VStack(spacing: 8) {
                                 mainWord
                                 mainSentenceExample
-                                .padding()
-                                .background(Color.white.opacity(0.05))
-                                .cornerRadius(8)
+                                    .padding()
+                                    .background(Color.white.opacity(0.05))
+                                    .cornerRadius(8)
                             }
                             .padding(.top, 20)
 
                             // Meanings Section
                             Meanings()
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding()
+                                .background(Color.white.opacity(0.05))
+                                .cornerRadius(8)
 //                            .frame(maxWidth: .infinity, alignment: .leading)
 //                            .padding()
 //                            .background(Color.white.opacity(0.05))
@@ -127,15 +131,17 @@ public struct ReviewingView: View {
                         .padding(.bottom, 40)
                     }
                 }
-                VStack { //input tab
+                VStack { // input tab
                     answerList
+                    SlidingButton()
                     extraOptionToggle
-                    .padding(.horizontal, 16)
+                        .padding(.horizontal, 16)
                 }
             }
         }
         .preferredColorScheme(.dark)
     }
+
     private var mainWord: some View {
         HStack {
             Spacer()
@@ -153,7 +159,7 @@ public struct ReviewingView: View {
             Spacer()
         }
     }
-    
+
     private var mainSentenceExample: some View {
         VStack(spacing: 8) {
             HStack(spacing: 8) {
@@ -168,10 +174,6 @@ public struct ReviewingView: View {
                     Text("がいない。")
                 }
                 .foregroundColor(.white)
-
-                Image(systemName: "pencil")
-                    .font(.system(size: 14))
-                    .foregroundColor(.white.opacity(0.5))
             }
 
             Text("There are no people on the moon.")
@@ -179,8 +181,10 @@ public struct ReviewingView: View {
                 .foregroundColor(.white.opacity(0.7))
         }
     }
+
     private var answerList: some View {
-        VStack{
+        VStack {
+//        TODO: turn it into a long slidable button -Don't Understand -
             HStack(spacing: 12) {
                 GradeButton(grade: "✘ Nothing", color: .red, key: "1")
                 GradeButton(grade: "✘ Something", color: .red, key: "2")
@@ -193,6 +197,7 @@ public struct ReviewingView: View {
             }
         }
     }
+
     private var extraOptionToggle: some View {
         VStack(spacing: 12) {
             // Extra options toggle

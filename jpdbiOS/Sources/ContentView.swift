@@ -1,3 +1,4 @@
+@_exported import HotSwiftUI
 import SwiftUI
 
 public struct ContentView: View {
@@ -7,7 +8,7 @@ public struct ContentView: View {
     public init() {}
 
     public var body: some View {
-        ZStack{
+        ZStack {
             Color(red: 0.09, green: 0.09, blue: 0.09)
                 .ignoresSafeArea()
             ReviewingView()
