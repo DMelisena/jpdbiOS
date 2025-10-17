@@ -7,31 +7,40 @@
 
 import SwiftUI
 
+enum grade {
+    case nothing, something, hard, okay, easy
+}
+
 struct SlidingButton: View {
-    @State private var offset: CGFloat = 0
+    @State private var dragDistance: CGFloat = 0
+    @State private var startLocation: CGFloat = 0
     @State private var isDragging = false
-    
+    @State private var grade: grade = .something
+
     var body: some View {
         ZStack(alignment: .leading) {
             // Track
             Rectangle()
-                .fill(offset > 100 ? Color.red : Color.blue)
+                .fill(dragDistance > -50 ? Color.red : Color.black)
                 .frame(width: 250, height: 50)
                 .gesture(
                     DragGesture()
                         .onChanged { value in
-                            isDragging = true
-                            offset = min(max(0, value.location.x), 210)
-                            print("offset: \(offset)")
+                            if !isDragging {
+                                isDragging = true
+                                startLocation = value.location.x
+                            }
+                            dragDistance = value.location.x - startLocation
+                            print("Distance dragged: \(dragDistance)")
                         }
                         .onEnded { _ in
                             isDragging = false
-                            if offset > 100 {
-                                print("Graded: I don't know ")
+                            if dragDistance < -50 {
+                                grade = .nothing
                             }
-                            else {
-                                print("Graded: I think I've seen it")
-                            }
+                            print("Final distance: \(dragDistance)")
+                            print("Graded: \(grade)")
+                            dragDistance = 0
                         }
                 )
         }
