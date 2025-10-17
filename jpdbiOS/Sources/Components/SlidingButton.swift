@@ -60,19 +60,32 @@ struct SlidingButton: View {
         }
         ZStack(alignment: .leading) {
             // Track
+            let currentColor: Color = {
+                if dragDistanceb > 25 {
+                    return .green
+                } else if dragDistanceb < -25 {
+                    return .orange
+                } else {
+                    return .blue
+                }
+            }()
+
             Rectangle()
-                .fill(dragDistanceb > -50 ? Color.red : Color.black)
+                .fill(currentColor)
                 .frame(width: 250, height: 50)
                 .overlay(
                     ZStack {
-                        Text("I never seen this")
+                        Text("Easy")
                             .foregroundColor(.white)
-                            .opacity(max(0, min(1, -dragDistanceb / 100)))
-                            .padding(.leading, 10)
+                            .opacity(dragDistanceb > 25 ? 1 : 0)
 
-                        Text("I think I've seen it")
+                        Text("Okay")
                             .foregroundColor(.white)
-                            .opacity(max(0, min(1, 1 - (-dragDistanceb / 100))))
+                            .opacity(dragDistanceb >= -25 && dragDistanceb <= 25 ? 1 : 0)
+
+                        Text("Hard")
+                            .foregroundColor(.white)
+                            .opacity(dragDistanceb < -25 ? 1 : 0)
                     }
                 )
                 .gesture(
@@ -82,17 +95,17 @@ struct SlidingButton: View {
                                 isDragging = true
                                 startLocationb = value.location.x
                             }
-                            dragDistanceb = value.location.x - startLocation
+                            dragDistanceb = value.location.x - startLocationb
                             print("Distance dragged: \(dragDistanceb)")
                         }
                         .onEnded { _ in
                             isDragging = false
                             if dragDistanceb > 25 {
-                                grade = .hard
-                            } else if dragDistanceb < -25 {
                                 grade = .easy
-                            } else {
+                            } else if dragDistanceb < -25 {
                                 grade = .okay
+                            } else {
+                                grade = .hard
                             }
                             print("Final distance: \(dragDistanceb)")
                             print("Graded: \(grade)")
