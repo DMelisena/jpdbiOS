@@ -9,20 +9,17 @@ import SwiftUI
 public struct ReviewingView: View {
     @State private var showExtraOptions = false
     @State private var showExamples = false
+//    TODO: Create a side view
 
     public var body: some View {
         ZStack {
-            Color(red: 0.09, green: 0.09, blue: 0.09)
-                .ignoresSafeArea()
             VStack {
-                ScrollView {
+                ScrollView { //main body
                     VStack(spacing: 0) {
                         // Answer Box - Vocabulary Card
                         VStack(spacing: 16) {
-                            // Main vocabulary word with furigana
                             VStack(spacing: 8) {
                                 mainWord
-                                // Example sentence
                                 mainSentenceExample
                                 .padding()
                                 .background(Color.white.opacity(0.05))
@@ -31,44 +28,11 @@ public struct ReviewingView: View {
                             .padding(.top, 20)
 
                             // Meanings Section
-                            VStack(alignment: .leading, spacing: 12) {
-                                HStack {
-                                    Text("Meanings")
-                                        .font(.system(size: 12, weight: .semibold))
-                                        .foregroundColor(.white.opacity(0.6))
-                                        .textCase(.uppercase)
-                                    Image(systemName: "pencil")
-                                        .font(.system(size: 12))
-                                        .foregroundColor(.white.opacity(0.5))
-                                }
-
-                                VStack(alignment: .leading, spacing: 8) {
-                                    HStack {
-                                        Text("Noun")
-                                            .font(.system(size: 12))
-                                            .padding(.horizontal, 8)
-                                            .padding(.vertical, 4)
-                                            .background(Color.blue.opacity(0.3))
-                                            .cornerRadius(4)
-                                        Text("Astronomy")
-                                            .font(.system(size: 12))
-                                            .padding(.horizontal, 8)
-                                            .padding(.vertical, 4)
-                                            .background(Color.purple.opacity(0.3))
-                                            .cornerRadius(4)
-                                    }
-                                    .foregroundColor(.white.opacity(0.9))
-
-                                    Text("1.  moon")
-                                        .foregroundColor(.white.opacity(0.9))
-                                    Text("2.  month")
-                                        .foregroundColor(.white.opacity(0.9))
-                                }
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding()
-                            .background(Color.white.opacity(0.05))
-                            .cornerRadius(8)
+                            Meanings()
+//                            .frame(maxWidth: .infinity, alignment: .leading)
+//                            .padding()
+//                            .background(Color.white.opacity(0.05))
+//                            .cornerRadius(8)
 
                             // Kanji Used Section
                             VStack(alignment: .leading, spacing: 12) {
@@ -163,7 +127,7 @@ public struct ReviewingView: View {
                         .padding(.bottom, 40)
                     }
                 }
-                VStack {
+                VStack { //input tab
                     answerList
                     extraOptionToggle
                     .padding(.horizontal, 16)

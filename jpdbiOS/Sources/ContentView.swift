@@ -7,7 +7,11 @@ public struct ContentView: View {
     public init() {}
 
     public var body: some View {
-        ReviewingView()
-            .preferredColorScheme(.dark)
+        ZStack{
+            Color(red: 0.09, green: 0.09, blue: 0.09)
+                .ignoresSafeArea()
+            ReviewingView()
+                .preferredColorScheme(.dark)
+        }
     }
 }

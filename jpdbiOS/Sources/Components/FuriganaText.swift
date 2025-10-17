@@ -12,13 +12,19 @@ struct FuriganaText: View {
     let isHighlighted: Bool
 
     var body: some View {
-        VStack(spacing: 0) {
-            Text(reading)
-                .font(.system(size: 10))
-                .foregroundColor(isHighlighted ? .yellow : .white.opacity(0.7))
+        ZStack{
             Text(kanji)
                 .font(.system(size: 16))
                 .foregroundColor(isHighlighted ? .yellow : .white)
+            VStack(spacing: 0) {
+                Text(reading)
+                    .font(.system(size: 10))
+                    .foregroundColor(isHighlighted ? .yellow : .white.opacity(0.7))
+                Text(" ")
+                    .font(.system(size: 20))
+                    .foregroundColor(isHighlighted ? .yellow : .white)
+            }
+
         }
     }
 }
