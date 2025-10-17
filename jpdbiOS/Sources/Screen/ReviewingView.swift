@@ -133,10 +133,9 @@ public struct ReviewingView: View {
                     }
                 }
                 VStack { // input tab
-                    answerList
                     SlidingButton()
+                        .padding(.horizontal, 10)
                     extraOptionToggle
-                        .padding(.horizontal, 16)
                 }
             }
         }

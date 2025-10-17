@@ -20,98 +20,115 @@ struct SlidingButton: View {
     @State private var grade: grade = .something
 
     var body: some View {
-        ZStack(alignment: .leading) {
-            // Track
-            Rectangle()
-                .fill(dragDistance > -50 ? Color.red : Color.black)
-                .frame(width: 250, height: 50)
-                .overlay(
-                    ZStack {
-                        Text("I never seen this")
-                            .foregroundColor(.white)
-                            .opacity(max(0, min(1, -dragDistance / 100)))
-                            .padding(.leading, 10)
+        VStack(spacing: 12) {
+            // First sliding button
+            ZStack(alignment: .leading) {
+                let currentColor: Color = dragDistance > -50 ? .red : .black
 
-                        Text("I think I've seen it")
-                            .foregroundColor(.white)
-                            .opacity(max(0, min(1, 1 - (-dragDistance / 100))))
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(currentColor.opacity(0.6), lineWidth: 2)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(currentColor.opacity(0.15))
+                    )
+                    .frame(height: 50)
+                    .overlay(
+                        ZStack {
+                            Text("I never seen this")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.white)
+                                .opacity(max(0, min(1, -dragDistance / 100)))
+
+                            Text("I think I've seen it")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.white)
+                                .opacity(max(0, min(1, 1 - (-dragDistance / 100))))
+                        }
+                    )
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
+                                if !isDragging {
+                                    isDragging = true
+                                    startLocation = value.location.x
+                                }
+                                dragDistance = value.location.x - startLocation
+                                print("Distance dragged: \(dragDistance)")
+                            }
+                            .onEnded { _ in
+                                isDragging = false
+                                if dragDistance < -50 {
+                                    grade = .nothing
+                                }
+                                print("Final distance: \(dragDistance)")
+                                print("Graded: \(grade)")
+                                dragDistance = 0
+                            }
+                    )
+            }
+
+            // Second sliding button
+            ZStack(alignment: .leading) {
+                let currentColor: Color = {
+                    if dragDistanceb > 25 {
+                        return .green
+                    } else if dragDistanceb < -25 {
+                        return .orange
+                    } else {
+                        return .blue
                     }
-                )
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            if !isDragging {
-                                isDragging = true
-                                startLocation = value.location.x
-                            }
-                            dragDistance = value.location.x - startLocation
-                            print("Distance dragged: \(dragDistance)")
-                        }
-                        .onEnded { _ in
-                            isDragging = false
-                            if dragDistance < -50 {
-                                grade = .nothing
-                            }
-                            print("Final distance: \(dragDistance)")
-                            print("Graded: \(grade)")
-                            dragDistance = 0
-                        }
-                )
-        }
-        ZStack(alignment: .leading) {
-            // Track
-            let currentColor: Color = {
-                if dragDistanceb > 25 {
-                    return .green
-                } else if dragDistanceb < -25 {
-                    return .orange
-                } else {
-                    return .blue
-                }
-            }()
+                }()
 
-            Rectangle()
-                .fill(currentColor)
-                .frame(width: 250, height: 50)
-                .overlay(
-                    ZStack {
-                        Text("Easy")
-                            .foregroundColor(.white)
-                            .opacity(dragDistanceb > 25 ? 1 : 0)
+                RoundedRectangle(cornerRadius: 6)
+                    .stroke(currentColor.opacity(0.6), lineWidth: 2)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(currentColor.opacity(0.15))
+                    )
+                    .frame(height: 50)
+                    .overlay(
+                        ZStack {
+                            Text("Easy")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.white)
+                                .opacity(dragDistanceb > 25 ? 1 : 0)
 
-                        Text("Okay")
-                            .foregroundColor(.white)
-                            .opacity(dragDistanceb >= -25 && dragDistanceb <= 25 ? 1 : 0)
+                            Text("Okay")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.white)
+                                .opacity(dragDistanceb >= -25 && dragDistanceb <= 25 ? 1 : 0)
 
-                        Text("Hard")
-                            .foregroundColor(.white)
-                            .opacity(dragDistanceb < -25 ? 1 : 0)
-                    }
-                )
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            if !isDragging {
-                                isDragging = true
-                                startLocationb = value.location.x
-                            }
-                            dragDistanceb = value.location.x - startLocationb
-                            print("Distance dragged: \(dragDistanceb)")
+                            Text("Hard")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.white)
+                                .opacity(dragDistanceb < -25 ? 1 : 0)
                         }
-                        .onEnded { _ in
-                            isDragging = false
-                            if dragDistanceb > 25 {
-                                grade = .easy
-                            } else if dragDistanceb < -25 {
-                                grade = .okay
-                            } else {
-                                grade = .hard
+                    )
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
+                                if !isDragging {
+                                    isDragging = true
+                                    startLocationb = value.location.x
+                                }
+                                dragDistanceb = value.location.x - startLocationb
+                                print("Distance dragged: \(dragDistanceb)")
                             }
-                            print("Final distance: \(dragDistanceb)")
-                            print("Graded: \(grade)")
-                            dragDistanceb = 0
-                        }
-                )
+                            .onEnded { _ in
+                                isDragging = false
+                                if dragDistanceb > 25 {
+                                    grade = .easy
+                                } else if dragDistanceb < -25 {
+                                    grade = .okay
+                                } else {
+                                    grade = .hard
+                                }
+                                print("Final distance: \(dragDistanceb)")
+                                print("Graded: \(grade)")
+                                dragDistanceb = 0
+                            }
+                    )
+            }
         }
     }
 }
