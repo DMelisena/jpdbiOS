@@ -1,10 +1,9 @@
-@_exported import HotSwiftUI
 import SwiftUI
 
 public struct ContentView: View {
     @State private var showExtraOptions = false
     @State private var showExamples = false
-
+    @ObserveInjection var forceRedraw
     public init() {}
 
     public var body: some View {

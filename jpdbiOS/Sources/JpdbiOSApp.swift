@@ -1,3 +1,4 @@
+@_exported import HotSwiftUI
 import SwiftUI
 
 @main

@@ -20,7 +20,20 @@ let project = Project(
                 "jpdbiOS/Sources",
                 "jpdbiOS/Resources",
             ],
-            dependencies: []
+            dependencies: [
+                .external(name: "HotSwiftUI"),
+            ],
+            settings: .settings(
+                base: [
+                    "OTHER_LDFLAGS": [
+                        "$(inherited)", // Always include this to preserve default linker flags
+                        "-Xlinker", // Passes the next argument directly to the linker
+                        "-interposable", // The actual linker flag for HotSwiftUI
+                    ],
+                    // User defined build setting for HotSwiftUI
+                    "EMIT_FRONTEND_COMMAND_LINES": "YES",
+                ]
+            )
         ),
         .target(
             name: "jpdbiOSTests",
@@ -29,7 +42,7 @@ let project = Project(
             bundleId: "dev.tuist.jpdbiOSTests",
             infoPlist: .default,
             buildableFolders: [
-                "jpdbiOS/Tests"
+                "jpdbiOS/Tests",
             ],
             dependencies: [.target(name: "jpdbiOS")]
         ),
