@@ -21,46 +21,9 @@ public struct ReviewingView: View {
                         VStack(spacing: 16) {
                             // Main vocabulary word with furigana
                             VStack(spacing: 8) {
-                                HStack {
-                                    Spacer()
-                                    VStack(spacing: 2) {
-                                        Text("つき")
-                                            .font(.system(size: 14))
-                                            .foregroundColor(.white.opacity(0.7))
-                                        Text("月")
-                                            .font(.system(size: 48, weight: .regular))
-                                            .foregroundColor(.white)
-                                    }
-                                    Image(systemName: "speaker.wave.2.fill")
-                                        .foregroundColor(.blue)
-                                        .padding(.leading, 12)
-                                    Spacer()
-                                }
-
+                                mainWord
                                 // Example sentence
-                                VStack(spacing: 8) {
-                                    HStack(spacing: 8) {
-                                        Image(systemName: "speaker.wave.2.fill")
-                                            .font(.system(size: 14))
-                                            .foregroundColor(.blue)
-
-                                        HStack(spacing: 0) {
-                                            FuriganaText(kanji: "月", reading: "つき", isHighlighted: true)
-                                            Text("には")
-                                            FuriganaText(kanji: "人", reading: "ひと", isHighlighted: false)
-                                            Text("がいない。")
-                                        }
-                                        .foregroundColor(.white)
-
-                                        Image(systemName: "pencil")
-                                            .font(.system(size: 14))
-                                            .foregroundColor(.white.opacity(0.5))
-                                    }
-
-                                    Text("There are no people on the moon.")
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.white.opacity(0.7))
-                                }
+                                mainSentenceExample
                                 .padding()
                                 .background(Color.white.opacity(0.05))
                                 .cornerRadius(8)
@@ -208,6 +171,49 @@ public struct ReviewingView: View {
             }
         }
         .preferredColorScheme(.dark)
+    }
+    private var mainWord: some View {
+        HStack {
+            Spacer()
+            VStack(spacing: 2) {
+                Text("つき")
+                    .font(.system(size: 14))
+                    .foregroundColor(.white.opacity(0.7))
+                Text("月")
+                    .font(.system(size: 48, weight: .regular))
+                    .foregroundColor(.white)
+            }
+            Image(systemName: "speaker.wave.2.fill")
+                .foregroundColor(.blue)
+                .padding(.leading, 12)
+            Spacer()
+        }
+    }
+    
+    private var mainSentenceExample: some View {
+        VStack(spacing: 8) {
+            HStack(spacing: 8) {
+                Image(systemName: "speaker.wave.2.fill")
+                    .font(.system(size: 14))
+                    .foregroundColor(.blue)
+
+                HStack(spacing: 0) {
+                    FuriganaText(kanji: "月", reading: "つき", isHighlighted: true)
+                    Text("には")
+                    FuriganaText(kanji: "人", reading: "ひと", isHighlighted: false)
+                    Text("がいない。")
+                }
+                .foregroundColor(.white)
+
+                Image(systemName: "pencil")
+                    .font(.system(size: 14))
+                    .foregroundColor(.white.opacity(0.5))
+            }
+
+            Text("There are no people on the moon.")
+                .font(.system(size: 14))
+                .foregroundColor(.white.opacity(0.7))
+        }
     }
     private var answerList: some View {
         VStack{
